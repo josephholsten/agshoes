@@ -1,0 +1,4 @@
+#!/bin/sh
+HOME="/Users/jhols1"
+cd "$HOME"
+exec /usr/local/bin/offlineimap -u quiet

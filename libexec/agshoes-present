@@ -1,0 +1,5 @@
+#!/bin/sh
+
+SRCDIR="$HOME/Dropbox/src"
+cd "${SRCDIR}/github.com/josephholsten/jh-ansible"
+exec bin/run "$@"

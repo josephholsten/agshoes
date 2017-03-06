@@ -1,0 +1,13 @@
+#!/bin/sh
+
+ARCHIVEDIR=/opt/archive
+DBARCHIVEDIR="$ARCHIVEDIR/Databases"
+
+PASSWORD_DB_PATH="$HOME/Dropbox/1Password.agilekeychain"
+
+ghq list > "$DBARCHIVEDIR/src-repo-list"
+rsync -a "$PASSWORD_DB_PATH"           "$DBARCHIVEDIR/1Password.agilekeychain"
+rsync -a "$HOME/Databases/Calendars"   "$DBARCHIVEDIR/Calendars"
+rsync -a "$HOME/Databases/Contacts"    "$DBARCHIVEDIR/Contacts"
+rsync -a "$HOME/Databases/Mail"        "$DBARCHIVEDIR/Mail"
+

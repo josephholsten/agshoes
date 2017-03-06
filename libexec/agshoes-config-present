@@ -1,0 +1,3 @@
+#!/bin/sh
+# config-present - ensure dotfile configuration is present
+exec mackup restore

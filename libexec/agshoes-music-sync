@@ -1,0 +1,7 @@
+#!/bin/sh
+MUSIC_DIR="${HOME}/Music/iTunes/iTunes Media/Music/"
+# REMOTE_HOST='media-1.josephholsten.com'
+# REMOTE_URL='media.josephholsten.com:/var/lib/music/'
+# rsync -avPpz "${MUSIC_DIR}" "${REMOTE_URL}"
+REMOTE_URL='s3://assets.josephholsten.com/music'
+aws s3 sync "${MUSIC_DIR}" "${REMOTE_URL}"

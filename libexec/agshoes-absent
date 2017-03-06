@@ -1,0 +1,38 @@
+#!/bin/sh
+# TODO: implement with maid or ansible
+
+# remove homebrew
+if command -p brew 2> /dev/null; then
+	brew cask list | xargs -L1 -t brew cask uninstall || true
+fi
+
+TMPFILE=$(mktemp -t agshoes) || exit 1
+BREW_UNINSTALL_URL=https://raw.githubusercontent.com/Homebrew/install/master/uninstall
+
+curl -fsSL $BREW_UNINSTALL_URL > $TMPFILE
+ruby $TMPFILE
+
+rm -rf /usr/local/bin/*
+rm -rf /usr/local/Caskroom/
+rm -rf /usr/local/etc/*
+rm -rf /usr/local/lib/*
+rm -rf /usr/local/var/*
+
+# remove ruby-install'd rubies
+# rm -rf /opt/rubies
+
+# if [ -L $HOME/.bin ]; then
+#     rm $HOME/.bin
+# fi
+
+# if [ -L $HOME/Documents ]; then
+#     rm $HOME/Documents
+# fi
+
+# if [ -L $HOME/Pictures ]; then
+#     rm $HOME/Pictures
+# fi
+
+# if [ -L $HOME/src ]; then
+#     rm $HOME/src
+# fi

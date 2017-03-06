@@ -1,0 +1,123 @@
+#!/bin/sh
+# agshoes - all you ever needed to get home, and preserve that home for history
+
+# Provides
+# - heartbeat
+# - absent
+# - lint
+# - photo-import
+# - present
+# - sync
+
+# Internal commands
+# - local-dedupe
+# - archive-dbs
+# - config-present
+# - local-sync
+# - mail-sync
+# - music-sync
+# - photo-sync
+# - vdir-sync
+# - remote-sync
+#
+# - cache-absent
+
+
+APPNAME="agshoes"
+
+# Occasionally symlinked as `_`.
+set -e
+if [ -n "$TRACE" ]; then
+	set -x
+fi
+
+log() {
+  echo "$@" >&2
+}
+
+debug() {
+  if [ -n "$DEBUG" ] || [ -n "$TRACE" ]; then
+    log "$@"
+  fi
+}
+
+trace() {
+  if [ -n "$TRACE" ]; then
+    log "$@"
+  fi
+}
+
+fatal() {
+  log "$@"
+  exit 1
+}
+
+
+# return the target of a symbolic link
+resolve_link() {
+  READLINK=$(type -p greadlink readlink | head -n 1)
+  $READLINK "$1"
+}
+
+# return the cannonical directory containing a file
+abs_dirname() {
+  local cwd="$(pwd)"
+  trace cwd=$cwd
+  local path="$1"
+  trace path=$path
+
+  while [ -n "$path" ]; do
+    local nextdir="$(dirname "$path")"
+    trace nextdir=$nextdir
+    cd "$nextdir"
+    local name="$(basename "$path")"
+    trace name=$name
+    path="$(resolve_link "$name" || true)"
+    trace path=$path
+  done
+
+  trace pwd=$(pwd)
+  pwd
+  cd "$cwd"
+}
+
+debug '$0'=$0
+
+# child, always remember from whence you came
+bin_path="$(abs_dirname "$0")"
+debug bin_path=$bin_path
+export _AG_ROOT="$(abs_dirname "$bin_path")"
+debug _AG_ROOT=$_AG_ROOT
+
+# add our libexec to PATH
+libexec_path="${_AG_ROOT}/libexec"
+debug libexec_path=$libexec_path
+export PATH="${libexec_path}:$PATH"
+
+# allow being called as `$APPNAME foo` or just `foo`
+progname=$(basename "$0")
+debug progname=$progname
+
+if $(command -v "$APPNAME-$progname"); then
+  command="$progname"
+else
+  command="$1"
+  shift || :  # allow shifting to nothing
+fi
+debug command=$command
+
+case "$command" in
+"" | "$APPNAME" | "-h" | "--help" )
+  exec $APPNAME-help
+  ;;
+* )
+  command_path="$(command -v "$APPNAME-$command" || true)"
+  debug command_path="$command_path"
+  if [ ! -x "$command_path" ]; then
+    fatal "$APPNAME: no such command \`$command'"
+  fi
+
+  debug exec "$command_path" "$@"
+  exec "$command_path" "$@"
+  ;;
+esac

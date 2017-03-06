@@ -1,0 +1,6 @@
+#!/bin/sh
+# heartbeat - update aliveness site
+SRCDIR="$HOME/Dropbox/src"
+cd "${SRCDIR}/github.com/josephholsten/alive.josephholsten.com"
+exec bin/update
+

@@ -1,0 +1,7 @@
+#!/bin/sh
+# agshoes-help
+
+echo "agshoes: come back home"
+echo
+echo "The simplest thing that could possibly work:"
+echo "    agshoes present"

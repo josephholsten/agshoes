@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# this is no longer correct, needs to be updated
+exit 1
+cd "$HOME"
+
+SRCDIR="$HOME/Dropbox/src"
+
+rsync \
+    --partial \
+    --progress \
+    --archive \
+    --del \
+    --delete-excluded \
+    --verbose \
+    --cvs-exclude \
+    --exclude-from .backupexclude \
+    . \
+    /opt/archive

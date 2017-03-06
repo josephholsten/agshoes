@@ -1,0 +1,4 @@
+#!/bin/sh
+# commands - list available agshoes commands
+ls "${_AG_ROOT}/libexec" |
+sed 's/agshoes-//'
