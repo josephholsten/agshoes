@@ -5,3 +5,4 @@
 
 brew tap josephholsten/josephholsten
 brew install josephholsten/josephholsten/agshoes
+brew cask install dropbox
