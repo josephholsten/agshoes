@@ -1,4 +1,4 @@
 #!/bin/sh
-HOME="/Users/jhols1"
-cd "$HOME"
+# mail-sync: syncronize imap database
+# Note: if used from cron, be sure to set $HOME and cd $HOME
 exec /usr/local/bin/offlineimap -u quiet
