@@ -1,25 +1,146 @@
 #!/bin/sh
+set -e
+
+if [ -- != -$TRACE- ]; then
+	set -x
+fi
+
 # TODO: implement with maid or ansible
 
-# remove homebrew
-if command -p brew 2> /dev/null; then
+
+
+stderr() {
+	cat - 1>&2
+}
+
+log() {
+	echo "$@" | stderr
+}
+
+debug() {
+	if [ -- != -$DEBUG- ]; then
+		log "$@"
+	fi
+}
+
+fatal() {
+	log "$@"
+	exit 1
+}
+
+brew_is_installed() {
+	pkg="$1"
+	pkg="$(basename "$pkg")"
+	matches="$(echo "$BREW_LIST_CACHE" | grep "$pkg")"
+	if [ -- != "-$matches-" ]; then
+		debug "brew_is_installed($pkg): true"
+		return 0
+	else
+		debug "brew_is_installed($pkg): false"
+		return 1
+	fi
+}
+
+brew_rm_deps() {
+	local pkg="$1"
+	# verify pkg is still installed
+	if brew_is_installed "$pkg"; then
+		debug "brew_rm_deps($pkg): pkg installed; checking deps"
+		dep_pkgs="$(brew uses --installed "$pkg")"
+		if [ -- != "-$dep_pkgs-" ]; then
+			for dep in $dep_pkgs; do
+				brew_rm_deps "$dep"
+			done
+			debug "brew_rm_deps($pkg): verify deps are removed"
+			dep_pkgs="$(brew uses --installed "$pkg")"
+			if [ -- != "-$dep_pkgs-" ]; then
+				fatal "brew_rm_deps($pkg): Failed to remove deps; remaining: $dep_pkgs"
+			fi
+		fi
+		debug "brew_rm_deps($pkg): deps cleaned; removing"
+		brew uninstall --force "$pkg"
+		# update brew list cache to reflect changes
+		BREW_LIST_CACHE="$(brew list)"
+	else
+		debug "brew_rm_deps($pkg): pkg not installed; skipping"
+	fi
+}
+
+brew_rmall_apps() {
+	# remove all apps
 	brew cask list | xargs -L1 -t brew cask uninstall || true
+	# verify all apps removed
+	remaining_apps=$(brew cask list)
+	if [ -- != "-$remaining_apps-" ]; then
+		fatal "Some apps did not cleanly uninstall: $remaining_apps"
+	fi
+}
+
+brew_rmall_pkgs() {
+	# remove all pkgs
+	for pkg in $(brew list); do
+		brew_rm_deps "$pkg"
+	done
+	# verify all pkgs removed
+	remaining_pkgs=$(brew list)
+	if [ -- != "-$remaining_pkgs-" ]; then
+		fatal "Some pkgs did not cleanly uninstall: $remaining_pkgs"
+	fi
+}
+
+
+
+
+# prime sudo permissions
+sudo echo > /dev/null
+
+local_shells=$(grep "/usr/local" < /etc/shells || true)
+if [ -- != "-$local_shells-" ]; then
+	fatal "/etc/shells contains local shells: $local_shells\nPlease manually remove these shells from /etc/shells and run \`agshoes absent\` again"
+fi
+
+if [ -x /opt/src ]; then
+	fatal "/opt/src still exists; Please manually remove this directory"
+fi
+
+# save mackup links
+if command -v mackup > /dev/null 2>&1; then
+	mackup_links=$(mackup -n uninstall | sed -e :a -e '$d;N;2,4ba' -e 'P;D' | awk '{print $2}')
+fi
+
+# remove homebrew pkgs & apps
+if command -v brew > /dev/null 2>&1; then
+	BREW_LIST_CACHE="$(brew list)"
+	brew_rmall_apps
+	brew_rmall_pkgs
 fi
 
 TMPFILE=$(mktemp -t agshoes) || exit 1
 BREW_UNINSTALL_URL=https://raw.githubusercontent.com/Homebrew/install/master/uninstall
 
 curl -fsSL $BREW_UNINSTALL_URL > $TMPFILE
-ruby $TMPFILE
+ruby $TMPFILE || true
 
 rm -rf /usr/local/bin/*
-rm -rf /usr/local/Caskroom/
 rm -rf /usr/local/etc/*
+rm -rf /usr/local/include/*
 rm -rf /usr/local/lib/*
+rm -rf /usr/local/share/doc/*
+rm -rf /usr/local/share/man/man1/*
+rm -rf /usr/local/share/man/man5/*
+rm -rf /usr/local/share/man/man7/*
 rm -rf /usr/local/var/*
 
-# remove ruby-install'd rubies
-# rm -rf /opt/rubies
+rm -rf /usr/local/Caskroom/
+rm -rf /usr/local/remotedesktop/
+
+for link in $mackup_links; do
+	if [ -l "$HOME/$link" ]; then
+		rm "$HOME/$link"
+	else
+		log "$link: should be a link managed by mackup, but wasn't"
+	fi
+done
 
 # if [ -L $HOME/.bin ]; then
 #     rm $HOME/.bin
