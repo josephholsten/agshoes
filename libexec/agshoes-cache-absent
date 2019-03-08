@@ -1,12 +1,57 @@
 #!/bin/sh
-# cache-absent: rm cache files from home
+# cache-absent: rm cache, log, generated files from home
 
+# individual files
+rm -f ~/.DS_Store
+rm -f ~/.bash_history
+rm -f ~/.bzr.log
+rm -f ~/.irb_history
+rm -f ~/.lesshst
+rm -f ~/.lldb
+rm -f ~/.nvimlog
+rm -f ~/.offlineimap.pyc
+rm -f ~/.python_history
+rm -f ~/.sh_history
+rm -f ~/.vim/.netrwhist*
+rm -f ~/.viminfo
+rm -f ~/.fasd
+
+# whole directories
 rm -rf ~/.ansible
-rm -rf ~/.bash_history
 rm -rf ~/.bash_sessions
-rm -rf ~/.bzr.log
-rm -rf ~/.lldb
-rm -rf ~/.nvimlog
-rm -rf ~/.offlineimap.pyc
+rm -rf ~/.berkshelf/cookbooks/
+rm -rf ~/.bundle/cache
+rm -rf ~/.cache
+rm -rf ~/.npm/_cacache
+rm -rf ~/.pia_manager/log
+rm -rf ~/.pia_manager/tmp
+rm -rf ~/.vdirsyncer/status
+rm -rf ~/.vagrant.d/boxes
+rm -rf ~/.parallel/tmp
+rm -rf ~/.gem
+rm -rf ~/.local/share/nvim/shada
+rm -rf ~/.local/share/nvim/view
+rm -rf ~/.local/share/nvim/swap
+rm -rf ~/.offlineimap
+
+# empty dir cleanup
+rmdir ~/.berkshelf    > /dev/null 2>&1
+rmdir ~/.bundle       > /dev/null 2>&1
+rmdir ~/.npm          > /dev/null 2>&1
+rmdir ~/.vdirsyncer   > /dev/null 2>&1
+rmdir ~/.vim          > /dev/null 2>&1
+rmdir ~/.vagrant.d    > /dev/null 2>&1
+rmdir ~/.terraform.d  > /dev/null 2>&1
+
+
 # want to keep .z history usually
-# rm -rf ~/.z
+
+# .base16_theme
+# .cups
+# .dropbox
+# .eslintrc.js
+# .gem
+# .ghq
+# .gnupg
+# .offlineimap
+# .pia_manager
