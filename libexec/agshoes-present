@@ -1,5 +1,14 @@
 #!/bin/sh
 
+set -x
+
+: ${BREWFILE:="/usr/local/share/agshoes/Brewfile"}
+brew update
+brew upgrade
+brew bundle --file="${BREWFILE}"
+
 SRCDIR="$HOME/Dropbox/src"
-cd "${SRCDIR}/github.com/josephholsten/jh-ansible"
+: ${CFGDIR:="${SRCDIR}/github.com/josephholsten/jh-ansible"}
+cd "${CFGDIR}"
+sudo echo > /dev/null
 exec bin/run "$@"
