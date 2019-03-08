@@ -1,6 +1,9 @@
 #!/bin/sh
+set -e
 
-set -x
+if [ -- != -$TRACE- ]; then
+        set -x
+fi
 
 : ${BREWFILE:="/usr/local/share/agshoes/Brewfile"}
 brew update
