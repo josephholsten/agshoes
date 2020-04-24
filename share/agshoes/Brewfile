@@ -1,206 +1,191 @@
-# core
-tap "homebrew/bundle"
-tap "homebrew/cask"
-tap "homebrew/core"
-tap "josephholsten/josephholsten"
-
-brew "josephholsten/josephholsten/agshoes"
-
-# package managers
-brew "node"   # required for npm
-brew "python" # osx ships with 2.7.6, which is insecure
-brew "go"     # required for go get
-brew "mas"    # mac app store
-brew "ruby"   # osx ships with 2.0.0p648, which is ancient
-# brew "python3"   # required for pip3
-
-# updated
-brew "bash"  # osx default is 3.2.57
-brew "ctags" # osx default is bsd
-brew "git"   # osx ships with 2.3.2, which is ancient
-# improved
-brew "coreutils"            # gnu tooling, almost entirely for realpath
-brew "ssh-copy-id"          # osx ssh is missing it
-brew "watch"                # improved while true do; ... done
-# brew "xz"                   # improved compress/gzip
-brew "editorconfig"         # improved modeline
-# events
-# stores
-brew "mackup"       # dotfile store (deprecated in favor of stow)
-brew "stow"         # dotfile store
-brew "pass"         # password store
-brew "ghq"          # rcs store
-brew "offlineimap"  # mail store sync
-brew "vdirsyncer"   # card/cal store sync
-# api
-brew "exiftool"       # image metadata cli
-brew "hub"            # github cli
-brew "jq"             # json maniplation cli
-brew "pandoc"         # text document convertion
-brew "lynx"           # html to text
-brew "path-extractor" # path extractor
-# ui
-brew "josephholsten/josephholsten/hig"   # multi-rcs ui
-brew "josephholsten/josephholsten/nixpp" # shorthands posix fallbacks
-brew "bash-completion"  # shell completions
-brew "mutt"             # maildir ui
-# - khal             # vcal ui
-brew "khard"            # vcard ui
-# dev
-brew "shellcheck" # sh linter
-brew "dash"       # posix sh
-brew "hugo"
-brew "mtr"
-brew "nmap"
-
-# previously installed packages
-# - clib
-# - cscope
-# - ctags
-# - dsh # dancer's shell
-# - godef
-# - gofmt
-# - goimports
-# - golint
-# - gotags
-# - guru
-# - htop
-# - jo                   # json output
-# - ledger               # accounting store
-# - less
-# - oath-toolkit         # otp generator
-# - parallel
-# - pstree
-# - pwgen
-# - qrencode
-# - remind               # reminder store
-# - ruby-install
-# - socat
-# - speedread
-# - splint
-# - sqlite
-# - task                 # taskwarrior
-# - terminal-notifier
-# - tree
-# - urlview              # extract urls from emails
-# brew "sphinx-doc"
-# brew "wget"
-
-# stores
-cask "dropbox"   # file store sync
-cask "1password" # password store
-cask "mylio"     # photo store
-# - workflowy # outlining / external brain TODO: create cask
-# ui
-cask "hammerspoon" # window manip ui
-cask "firefox"      # browser
-# - gpgtools    # encryption ui
-cask "iterm2" # terminal
-# misc
-cask "gemini"          # deduplication
-cask "keepingyouawake" # prevent sleep events
-cask "marked"
-cask "docker"
-#   tap "caskroom/fonts"
-# - caskroom/fonts/font-hasklig # ligatures # TODO: fix broken installation under ansible
-# - qlmarkdown
-# - graphviz
-# - arq
-# - flux
-# - quicksilver  # launcher
-
-
-# fallback
-cask "atom"               # text editor
-cask "visual-studio-code" # text editor
-cask "google-chrome"      # browser
-# testing
-cask "appcleaner"
-cask "daisydisk"
-cask "day-o"
-cask "handbrake"
-cask "prince"
-cask "sabaki"
-cask "skype"
-cask "zoomus"
-
-cask "battle-net"
-cask "discord"
-# - family-tree-maker
-cask "malwarebytes"
-cask "selfcontrol"
-cask "arq"
-cask "calibre"
-cask "steam"
-cask "transmit"
-cask "vagrant"
-cask "xquartz"
-
-# apps in app store:
-# - todoist
-
-tap "chef/chef"
-cask "chef/chef/chef-workstation"
-
-tap "neovim/neovim"
-brew "neovim"
-
-# - name: nvim:plugins:update
-# command: nvim -c PlugUpdate -c quit -c quit
-
-
-
-mas "GarageBand", id: 682658836
-mas "iMovie", id: 408981434
-mas "Keynote", id: 409183694
-mas "Numbers", id: 409203825
-mas "Pages", id: 409201541
-mas "Xcode", id: 497799835
-
-mas "Todoist", id: 585829637 
-mas "Gemini", id: 463541543 
-mas "iA Writer", id: 775737590 
-mas "Textual 5 Trial", id: 896450579 
-
-# - name: neovim tap
-#   homebrew_tap:
-#     name: homebrew/completions
-#   with_items:
-#   - homebrew/completions
-#   - caskroom/cask
-
-# improved x
-
-# improved grep -r {
-# - ack
-brew "the_silver_searcher"  # improved grep(1), ack -> c
-# - the_platinum_searcher # ack -> go
-brew "ripgrep"              # improved grep(1), ack -> rust
+# taps {
+  tap "homebrew/core"
+  tap "homebrew/bundle" # Brewfile support
+  tap "homebrew/cask"
+# tap "homebrew/completions"
+  tap "josephholsten/josephholsten"
 # }
 
-# - mobile-shell # ssh
-# - par # fmt
-# - multitail
+# configuration management {
+brew "josephholsten/josephholsten/agshoes"
+# }
 
-# niceties
-# - tmux # term muxer
-# - md5sha1sum
-# - reattach-to-user-namespace # hack to make tmux play with mac
+# package managers {
+  brew "go"       # required for go get
+  brew "mas"      # mac app store
+# brew "node"     # required for npm
+  brew "python"   # osx ships with 3.7.3
+# }
 
-# networking
-# - dsh
-# - ipcalc
+# updated core tools {
+# brew "awk"   # osx ships with 20070501
+# brew "bash"  # osx default is 3.2.57
+  brew "ctags" # osx default is bsd
+# brew "dash"  # posix sh, now included in osx
+  brew "git"   # osx ships with 2.3.2, which is ancient
+# brew "less"  # osx ships with 487
+  brew "zsh"   # osx ships with 5.7.1
+# }
 
-# mail
-# - notmuch
+# keg-only core tools {
+# brew "bc"
+# brew "bison"
+# brew "bzip2"
+# brew "cups"
+# brew "curl" # osx ships with 7.64.1
+# brew "file-formula"
+# brew "flex"
+# brew "lsof"
+# brew "m4"
+# brew "ncompress" # improved compress
+# brew "ruby"
+# brew "sqlite"
+# brew "ssh-copy-id"
+# brew "unzip"
+# brew "zip"
+# brew "ruby"     # osx ships with 2.6.3p62
+# }
 
-# security
-# - fortune
-# - gnu-typist # typing lessons
-# - imagemagick # image manip
-# - ledger # accounting
-# - nethack # the game
-# - remind # calendaring
+# improved core tools {
+  brew "coreutils"     # gnu tooling, almost entirely for realpath
+  brew "editorconfig"  # improved modeline
+# brew "htop"          # improved top
+  brew "parallel"      # improved xargs
+# brew "pstree"        # improved ps
+# brew "socat"         # improved nc
+  brew "watch"         # improved while true do; ... done
+# brew "xz"            # improved compress/gzip
+# brew "tree"          # improved ls -r
+# brew "mobile-shell"  # improved ssh
+# brew "par"           # improved fmt
+# brew "multitail"     # improved tail
+  cask "iterm2"        # improved Terminal.app
+# }
+
+# improved grep -r {
+# brew "ack"
+  brew "the_silver_searcher"    # ack -> c
+# brew "the_platinum_searcher"  # ack -> go
+  brew "ripgrep"                # ack -> rust
+# }
+
+# improved curl {
+# brew "wget"
+# brew "aria2"
+# }
+#
+# improved Safari / browser {
+  cask "firefox"        # improved browser
+
+  cask "brave-browser"  # fallback
+  cask "google-chrome"  # fallback
+  cask "tor-browser"    # anonymous browser, tor + web browser
+# }
+
+# improved vi / text editor {
+  tap "neovim/neovim"
+  brew "neovim"
+
+  cask "visual-studio-code" # graphical text editor
+# }
+
+# improved TextEdit / word processor {
+  mas "Pages", id: 409201541
+  mas "iA Writer", id: 775737590
+# }
+
+# parallel ssh {
+  brew "pdsh"   # born:1998-09-04, parallel distributed shell
+
+# brew "dsh"    # born:2001-05-13, dancer's shell (unmaintained)
+# brew "mussh"  # born:2001-06-02, multihost ssh (unmaintained)
+# brew "pssh"   # born:2003-08-16, parallel ssh (unmaintained)
+# brew "mpssh"  # born:2008-06-05, mass parallel ssh
+# brew "ppss"   # born:2009-01-04, parallel processing shell script (unmaintained)
+# brew "hss"    # born:2017-10-15
+
+# go get github.com/reconquest/orgalorg
+# pip install parallel-ssh
+# pip3 install git+https://github.com/google/paramgmt.git
+#
+# cluster-ssh  # born:2002-12-??, xterm multiplexer
+# csshX        # born:2009-03-03, -> OS X
+# i2cssh       # born:2011-06-12, -> iTerm2
+# tmux-cssh    # born:2017-05-17, -> tmux
+# }
+
+# fuzzy item select (pie:leg la:lego la:seligo gmc:pikkōną gmc:keusaną gmc:plukkōną) {
+# - helm.el (nee anything.el) # born:2007-07-22
+# - canything    # born:2010-12-12, anything.el -> c
+# - ctrlp.vim    # born:2011-06-20
+# brew "percol"  # born:2011-02-26
+  brew "fzf"     # born:2013-10-22, ctrlp.vim -> go
+# brew "peco"    # born:2014-06-05, percol -> go
+# }
+
+# improved cd(1) {
+# brew "autojump" # born:2008-04-21
+# brew "z"        # born:2009-06-18, autojump -> sh
+  brew "fasd"
+# }
+
+# file watching {
+brew "fswatch"  # file change events
+# - watchexec
+# - watchr
+# }
+
+# stores {
+  cask "arq"          # backups
+  cask "dropbox"      # file store sync
+  brew "ghq"          # rcs store
+  cask "keybase"   # secure file store
+# brew "ledger"       # accounting store
+# brew "mackup"       # dotfile store (deprecated in favor of stow)
+  cask "mylio"        # photo store
+  brew "offlineimap"  # mail store sync
+# brew "remind"       # reminder store
+  brew "stow"         # dotfile store
+  brew "vdirsyncer"   # card/cal store sync
+  cask "workflowy"    # outlining / external brain
+  mas  "Todoist", id: 585829637 # family lists
+# }
+
+# improved Keychain store {
+  brew "pass"         # password store
+  cask "1password"    # password store ui
+# cask "keepassx"     # foss password safe
+# }
+
+# api {
+  brew "exiftool"        # image metadata cli
+  brew "hub"             # github cli
+  brew "jq"              # json maniplation cli
+  brew "lynx"            # html to text
+  brew "pandoc"          # text document convertion
+  brew "path-extractor"  # path extractor
+# }
+
+# ui {
+# brew "bash-completion"  # bash shell completions
+  brew "josephholsten/josephholsten/hig"   # multi-rcs ui
+# brew "khal"             # vcal ui
+  brew "khard"            # vcard ui
+  brew "mutt"             # maildir ui
+  brew "josephholsten/josephholsten/nixpp" # shorthands posix fallbacks
+  brew "zsh-completions"  # zsh shell completions
+# }
+
+# dev {
+  brew "hugo"
+  brew "mtr"
+  brew "nmap"
+  brew "shellcheck" # sh linter
+# }
+
+# ui
+cask "hammerspoon" # window manip ui
+# - gpgtools    # encryption ui
 
 # self-stalking
 brew "imagesnap"      # laptop camera cli
@@ -217,73 +202,17 @@ brew "sleepwatcher"   # wakeup events
 # - tag # osx file tag manip
 # - influxdb # timeseriesdb
 
-# fuzzy item select (pie:leg la:lego la:seligo gmc:pikkōną gmc:keusaną gmc:plukkōną) {
-# - helm.el (nee anything.el) # born:2007-07-22
-# - canything # born:2010-12-12, anything.el -> c
-# - ctrlp.vim # born:2011-06-20
-# - percol # born:2011-02-26
-brew "fzf" # born:2013-10-22, ctrlp.vim -> go
-brew "peco" # born:2014-06-05, percol -> go
-# }
-
-# improved cd(1) {
-# - autojump # born:2008-04-21
-# - z # born:2009-06-18, autojump -> sh
-brew "fasd"
-# }
-
-# file watching {
-brew "fswatch"      # file change events
-# - watchexec
-# - watchr
-# }
-
-### Just playing with these things
-# - miller
-# - commonmark
-# - slackcat
-# - rem
-# - shfmt
-# - todoman
-
-
-# stores {
-cask "keybase"   # secure file store
-# }
-
-# - torbrowser # anonymous browser, tor + web browser
-# - franz       # chat ui, instant messaging
-cask "slack"              # sous-chefs, hangops chat
-# - workflowy          # outlining / external brain TODO: create cask
-# - steam # gaming
-# - daisydisk          # fs usage viz
-# - gemini             # deduplication
-# - adium              # instant messaging
-# - cyberduck          # foss sftp
-# - flux
-# - keepassx           # foss password safe
-# - transmit           # sftp
-# - transmission       # bittorent
-# - panic-unison       # usenet
-# - calibre            # ebook mgmt
-# - papers             # biblio mgmt
-# - bitcoin-core       # money access
-# - electric-sheep     # the screensaver
-# - geektool           # desktop viz
-# - musicbrainz-picard # music tagging
-# - tuneup             # music tagging
-
 # launcher {
-# foss
-# - flashlight https://github.com/w0lfschild/Flashlight
-# - cerebro
-# - dext https://github.com/vutran/dext
-# cask "quicksilver"
-# cask "zazu"
-# proprietary
-# - lacona https://www.lacona.io/
-cask "launchbar"
-# cask "alfred"
+  cask "launchbar"    # born:1996
+# cask "quicksilver"  # born:2003-12-02
+# cask "alfred"       # born:2010-03-03
+# }
+
+# VPN clients {
+cask "viscosity"    # OpenVPN Client
+cask "tunnelblick"  # OpenVPN Client
+cask "shimo"        # OpenVPN Client
+cask "private-internet-access"
 # }
 
 # all rcs supported by hig
@@ -292,3 +221,100 @@ brew "cvs"
 brew "darcs"
 brew "mercurial"
 # brew "rcs" # conflicts on ci(1), co(1)
+
+cask "appcleaner"  # app removal
+mas  "Audiobook Binder", id: 413969927
+cask "battle-net"
+cask "calibre"         # ebook mgmt
+cask "caskroom/fonts/font-hasklig" # ligatures # TODO: fix broken installation under ansible
+cask "daisydisk"       # fs usage viz
+cask "dash"         # Documentation Viewer
+cask "day-o"       # calendar
+cask "discord"
+cask "docker"
+brew "fortune"
+mas  "GarageBand", id: 682658836
+cask "gemini"          # deduplication
+brew "gnu-typist" # typing lessons
+brew "graphviz"
+cask "handbrake"   # dvd encoding
+mas  "iMovie", id: 408981434
+brew "ipcalc"
+cask "karabiner-elements"
+cask "keepingyouawake" # prevent sleep events
+mas  "Keynote", id: 409183694
+cask "malwarebytes"
+cask "marked"
+brew "md5sha1sum"
+cask "musicbrainz-picard" # music tagging
+cask "netnewswire"
+mas  "Numbers", id: 409203825
+cask "obs"
+cask "photosweeper-x"
+cask "prince"      # html to pdf
+cask "qlmarkdown"
+brew "reattach-to-user-namespace" # hack to make tmux play with mac
+cask "sabaki"      # go board
+cask "selfcontrol"
+cask "signal"       # secure messaging
+cask "slack"        # sous-chefs, hangops chat
+cask "steam"           # gaming marketplace
+cask "textual" # irc gui
+mas  "Timer", id: 799574890
+brew "tmux" # term muxer
+cask "vagrant"
+mas  "Xcode", id: 497799835
+cask "xquartz"
+cask "zoomus"      # video chat
+
+
+# Deprecated
+# - clib
+# - cscope
+# - godef
+# - gofmt
+# - goimports
+# - golint
+# - gotags
+# - guru
+# - jo                   # json output
+# - oath-toolkit         # otp generator
+# - pwgen
+# - qrencode
+# - ruby-install
+# - speedread
+# - task                 # taskwarrior
+# - terminal-notifier
+# - urlview              # extract urls from emails
+# brew "sphinx-doc"
+# brew "splint" # secure programming lint
+# cask "adium"              # instant messaging
+# cask "anki"
+# cask "atom"             # text editor
+# cask "bitcoin-core"       # money access
+# cask "chef/chef/chef-workstation"
+# cask "commonmark"
+# cask "cyberduck"          # foss sftp
+# cask "electric-sheep"     # the screensaver
+# cask "family-tree-maker"
+# cask "flux"
+# cask "franz"       # chat ui, instant messaging
+# cask "geektool"           # desktop viz
+# cask "hyper"
+# cask "miller"
+# cask "panic-unison"       # usenet
+# cask "papers"             # biblio mgmt
+# cask "rem"
+# cask "shfmt"
+# cask "skype"
+# cask "slackcat"
+# cask "todoman"
+# cask "transmission"       # bittorent
+# cask "transmit"           # sftp
+# cask "tuneup"             # music tagging
+# - notmuch
+# - imagemagick # image manip
+# - nethack # the game
+# - flux
+#
+# vi: sw=2
