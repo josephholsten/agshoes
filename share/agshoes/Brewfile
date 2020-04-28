@@ -248,6 +248,7 @@ cask "marked"
 brew "md5sha1sum"
 cask "musicbrainz-picard" # music tagging
 cask "netnewswire"
+brew "discoteq/discoteq/flock" # file locking
 mas  "Numbers", id: 409203825
 cask "obs"
 cask "photosweeper-x"

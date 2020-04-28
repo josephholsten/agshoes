@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # install homebrew
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 
 brew tap josephholsten/josephholsten
 brew install josephholsten/josephholsten/agshoes

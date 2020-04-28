@@ -116,10 +116,10 @@ if command -v brew > /dev/null 2>&1; then
 fi
 
 TMPFILE=$(mktemp -t agshoes) || exit 1
-BREW_UNINSTALL_URL=https://raw.githubusercontent.com/Homebrew/install/master/uninstall
+BREW_UNINSTALL_URL=https://raw.githubusercontent.com/Homebrew/install/master/uninstall.sh
 
 curl -fsSL $BREW_UNINSTALL_URL > $TMPFILE
-ruby $TMPFILE || true
+bash $TMPFILE || true
 
 rm -rf /usr/local/bin/*
 rm -rf /usr/local/etc/*
